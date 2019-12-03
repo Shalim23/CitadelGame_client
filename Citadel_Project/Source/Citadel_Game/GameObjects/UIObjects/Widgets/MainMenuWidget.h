@@ -38,5 +38,8 @@ private:
 
     UFUNCTION()
     void GoToGameRules();
+
+    UFUNCTION()
+    void FindGame();
 	
 };

@@ -1,8 +1,8 @@
-
-Citadel_Game.sln
-Citadel_Game.uproject
-Binaries/
-Build/
-Config/
-Intermediate/
-Saved/
+Citadel_Project/.vs/
+Citadel_Project/Citadel_Project.sln
+Citadel_Project/Citadel_Project.uproject
+Citadel_Project/Binaries/
+Citadel_Project/Build/
+Citadel_Project/Config/
+Citadel_Project/Intermediate/
+Citadel_Project/Saved/

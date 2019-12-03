@@ -27,5 +27,6 @@ struct EventDelegateHandle
 DECLARE_EVENT_OneParam(EventDispatcher, BaseGameEvent, const struct EventData&)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, LeaveFromMainMenuEvent)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, ReturnToMainMenuEvent)
+DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, FindGameEvent)
 
 

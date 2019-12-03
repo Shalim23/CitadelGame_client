@@ -3,18 +3,22 @@
 #include "Custom/Events/Events.h"
 
 
-// Sets default values
 ANetworkHandler::ANetworkHandler()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+    m_EventsHandler.subscribe({
+        {EventType::FindGame, [this](const EventData& eventData) { OnFindGame(eventData); }},
+        });
 
 }
 
-// Called when the game starts or when spawned
-void ANetworkHandler::BeginPlay()
+void ANetworkHandler::OnFindGame(const EventData& eventData)
 {
-	Super::BeginPlay();
+    if (eventData.eventType != EventType::FindGame)
+    {
+        return;
+    }
 
     m_Socket = FTcpSocketBuilder("default").AsNonBlocking();
 
@@ -22,20 +26,26 @@ void ANetworkHandler::BeginPlay()
     TSharedRef<FInternetAddr> Addr =
         ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
     Addr->SetIp(ip.Value);
-    Addr->SetPort(55000);
+    Addr->SetPort(56000);
 
     m_Socket->Connect(*Addr);
     if (m_Socket->GetConnectionState() == SCS_Connected)
     {
+        PrimaryActorTick.bCanEverTick = true;
         //#TODO process to next game step
     }
     else
     {
-        //#TODO handle connection failure
+        //#TODO spawn UI instance with error
     }
 }
 
-// Called every frame
+void ANetworkHandler::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
 void ANetworkHandler::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -61,7 +71,7 @@ void ANetworkHandler::SerializeAndSend(const NetEventData& eventBase)
     int error = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->GetLastErrorCode();
     if (error == SE_ECONNRESET)
     {
-        //#TODO handle connection error
+        //#TODO spawn UI instance with error
     }
 }
 

@@ -7,6 +7,7 @@ enum class EventType
     Base,
     LeaveFromMainMenu,
     ReturnToMainMenu,
+    FindGame,
 };
 
 enum class NetEventType
@@ -41,6 +42,15 @@ struct ReturnToMainMenuEventData : public EventData
 
     ReturnToMainMenuEventData()
         : Super(EventType::ReturnToMainMenu)
+    {}
+};
+
+struct FindGameEventData : public EventData
+{
+    using Super = EventData;
+
+    FindGameEventData()
+        : Super(EventType::FindGame)
     {}
 };
 

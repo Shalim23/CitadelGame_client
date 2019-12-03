@@ -6,6 +6,7 @@ EventDispatcher::EventDispatcher()
 {
     m_Events.insert({ EventType::LeaveFromMainMenu, std::make_unique<LeaveFromMainMenuEvent>() });
     m_Events.insert({ EventType::ReturnToMainMenu, std::make_unique<ReturnToMainMenuEvent>() });
+    m_Events.insert({ EventType::FindGame, std::make_unique<FindGameEvent>() });
 }
 
 BaseGameEvent* EventDispatcher::GetEvent(const EventType& eventType)

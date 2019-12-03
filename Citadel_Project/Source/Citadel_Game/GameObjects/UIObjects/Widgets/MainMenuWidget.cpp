@@ -16,7 +16,7 @@ void UMainMenuWidget::NativeConstruct()
 
     if (StartGameButton)
     {
-        //StartGameButton->OnPressed.AddDynamic(this, &UMainMenuWidget::ExitGame);
+        StartGameButton->OnPressed.AddDynamic(this, &UMainMenuWidget::FindGame);
     }
 
     if (GameRulesButton)
@@ -47,4 +47,9 @@ void UMainMenuWidget::GoToGameRules()
 void UMainMenuWidget::ExitGame()
 {
     FGenericPlatformMisc::RequestExit(false);
+}
+
+void UMainMenuWidget::FindGame()
+{
+
 }
