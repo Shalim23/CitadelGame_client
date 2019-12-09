@@ -8,8 +8,8 @@
 
 AGameRulesHandler::AGameRulesHandler()
 {
-    PrimaryActorTick.bCanEverTick = true;
-
+    PrimaryActorTick.bCanEverTick = false;
+    
     m_widget = CreateDefaultSubobject<UWidgetComponent>(TEXT("GameRulesWidget"));
     ConstructorHelpers::FClassFinder<UUserWidget> widget(TEXT("/Game/GameRulesWidget"));
     if (widget.Succeeded())
@@ -41,7 +41,6 @@ void AGameRulesHandler::SubcribeOnEvents()
 void AGameRulesHandler::BeginPlay()
 {
     Super::BeginPlay();
-
 }
 
 void AGameRulesHandler::Tick(float DeltaTime)

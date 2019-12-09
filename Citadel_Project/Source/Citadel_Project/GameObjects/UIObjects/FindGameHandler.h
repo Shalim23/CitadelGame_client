@@ -5,32 +5,33 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Custom/Events/EventsHandler.h"
-#include "GameRulesHandler.generated.h"
+#include "FindGameHandler.generated.h"
 
 class UWidgetComponent;
 struct EventData;
 
 UCLASS()
-class CITADEL_PROJECT_API AGameRulesHandler : public AActor
+class CITADEL_PROJECT_API AFindGameHandler : public AActor
 {
 	GENERATED_BODY()
 	
-public:
-    AGameRulesHandler();
-    void Tick(float DeltaTime) override;
+public:	
+	AFindGameHandler();
+	void Tick(float DeltaTime) override;
 
 protected:
-    void BeginPlay() override;
+	void BeginPlay() override;
 
 private:
-    void SubcribeOnEvents();
-
     void OnReturnToMainMenu(const EventData& eventData);
+    void OnNoServerConnection(const EventData& eventData);
+    void OnConnectedToServer(const EventData& eventData);
+
+    void SubcribeOnEvents();
 
 private:
     UPROPERTY()
-    UWidgetComponent* m_widget;
+    UWidgetComponent* m_widgetComponent;
 
     EventsHandler m_EventsHandler;
-
 };

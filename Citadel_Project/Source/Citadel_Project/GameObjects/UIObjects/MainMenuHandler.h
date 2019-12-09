@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Custom/Events/EventsHandler.h"
-#include "Custom/Events/EventsData.h"
 #include "MainMenuHandler.generated.h"
 
 class UWidgetComponent;
+struct EventData;
 
 UCLASS()
 class CITADEL_PROJECT_API AMainMenuHandler : public AActor
@@ -28,7 +28,7 @@ private:
 
 private:
     UPROPERTY()
-        UWidgetComponent* m_widget;
+    UWidgetComponent* m_widget;
 
     EventsHandler m_EventsHandler;
 

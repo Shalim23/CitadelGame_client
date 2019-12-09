@@ -2,13 +2,13 @@
 
 
 #include "GameRulesWidget.h"
-#include "Custom/Events/EventDispatcher.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/ScrollBox.h"
 #include "Components/SizeBox.h"
+#include "Custom/Events/EventDispatcher.h"
 #include "GameObjects/UIObjects/MainMenuHandler.h"
 #include "Custom/JsonDataHelper/JsonDataHelper.h"
 

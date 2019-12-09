@@ -2,6 +2,7 @@
 
 
 #include "Citadel_ProjectGameModeBase.h"
+#include "GameObjects/UIObjects/MainMenuHandler.h"
 
 void ACitadel_ProjectGameModeBase::BeginPlay()
 {
@@ -13,4 +14,6 @@ void ACitadel_ProjectGameModeBase::BeginPlay()
         controller->SetInputMode(FInputModeUIOnly());
         controller->bShowMouseCursor = true;
     }
+
+    GetWorld()->SpawnActor<AMainMenuHandler>();
 }

@@ -56,7 +56,7 @@ void UMainMenuWidget::FindGame()
         findGameEvent->Broadcast(FindGameEventData());
 
         RemoveFromParent();
-        //GetWorld()->SpawnActor<AGameRulesHandler>(); #TODO spawn info text and return button
+        GetWorld()->SpawnActor<AGameRulesHandler>();
     }
 }
 

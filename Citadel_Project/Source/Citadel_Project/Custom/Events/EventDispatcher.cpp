@@ -7,6 +7,9 @@ EventDispatcher::EventDispatcher()
     m_Events.insert({ EventType::LeaveFromMainMenu, std::make_unique<LeaveFromMainMenuEvent>() });
     m_Events.insert({ EventType::ReturnToMainMenu, std::make_unique<ReturnToMainMenuEvent>() });
     m_Events.insert({ EventType::FindGame, std::make_unique<FindGameEvent>() });
+    m_Events.insert({ EventType::ReadyForGame, std::make_unique<ReadyForGameEvent>() });
+    m_Events.insert({ EventType::NoServerConnection, std::make_unique<NoServerConnectionEvent>() });
+    m_Events.insert({ EventType::ConnectedToServer, std::make_unique<ConnectedToServerEvent>() });
 }
 
 BaseGameEvent* EventDispatcher::GetEvent(const EventType& eventType)
