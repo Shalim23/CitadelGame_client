@@ -32,6 +32,7 @@ protected:
 
 private:
     void NativeConstruct() override;
+    void DeactivateReadyButton();
 
     UFUNCTION()
     void ReturnToMainMenu();

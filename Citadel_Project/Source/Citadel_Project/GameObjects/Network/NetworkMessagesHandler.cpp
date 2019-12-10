@@ -1,5 +1,6 @@
 #include "NetworkMessagesHandler.h"
 #include "NetworkEventsStrings.h"
+#include "Custom/Events/EventDispatcher.h"
 
 NetworkMessagesHandler::NetworkMessagesHandler()
 {
@@ -23,15 +24,24 @@ void NetworkMessagesHandler::ProcessMessage(const FString& message, const FMemor
 
 void NetworkMessagesHandler::OnNetNotReadyMessage(const FMemoryReader& data)
 {
-    //#TODO handle this case
+    if (BaseGameEvent* playersNotReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::PlayersNotReady))
+    {
+        playersNotReadyEvent->Broadcast(PlayersNotReadyEventData());
+    }
 }
 
 void NetworkMessagesHandler::OnNetAllAreReadyMessage(const FMemoryReader& data)
 {
-    //#TODO handle this case
+    if (BaseGameEvent* allPlayersReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::AllPlayersReady))
+    {
+        allPlayersReadyEvent->Broadcast(AllPlayersReadyEventData());
+    }
 }
 
 void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const FMemoryReader& data)
 {
-    //#TODO handle this case
+    if (BaseGameEvent* gameFoundEvent = EventDispatcher::GetInstance().GetEvent(EventType::GameFound))
+    {
+        gameFoundEvent->Broadcast(GameFoundEventData());
+    }
 }

@@ -27,6 +27,7 @@ private:
 
     void Connect();
     void OnReturnToMainMenu(const EventData& eventData);
+    void OnPlayerReady(const EventData& eventData);
 
     void SubscribeOnEvents();
 

@@ -15,7 +15,21 @@ void ANetworkHandler::SubscribeOnEvents()
 {
     m_EventsHandler.subscribe({
         {EventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
+        {EventType::ReadyForGame, [this](const EventData& eventData) { OnPlayerReady(eventData); }},
         });
+}
+
+void ANetworkHandler::OnPlayerReady(const EventData& eventData)
+{
+    if (eventData.eventType == EventType::ReadyForGame)
+    {
+        FBufferArchive toBinary;
+
+        FText isReadyMessage = FText::FromString(IsReadyMessage);
+        toBinary << isReadyMessage;
+
+        Send(toBinary);
+    }
 }
 
 void ANetworkHandler::OnReturnToMainMenu(const EventData& eventData)
@@ -97,7 +111,11 @@ void ANetworkHandler::Send(FBufferArchive& data)
     int error = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->GetLastErrorCode();
     if (error == SE_ECONNRESET)
     {
-        //#TODO terminate game, clean up
+        if (BaseGameEvent* serverConnectionLostEvent = EventDispatcher::GetInstance().GetEvent(EventType::ServerConnectionLost))
+        {
+            serverConnectionLostEvent->Broadcast(ServerConnectionLostEventData());
+            //#TODO shutdown network handler
+        }
     }
 }
 

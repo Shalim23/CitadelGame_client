@@ -4,6 +4,7 @@
 #include "MainMenuWidget.h"
 #include "Components/Button.h"
 #include "Custom/Events/EventDispatcher.h"
+#include "GameObjects/UI/UIObjects/FindGameHandler.h"
 #include "GameObjects/UI/UIObjects/GameRulesHandler.h"
 
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& objectInitializer)
@@ -56,7 +57,7 @@ void UMainMenuWidget::FindGame()
         findGameEvent->Broadcast(FindGameEventData());
 
         RemoveFromParent();
-        GetWorld()->SpawnActor<AGameRulesHandler>();
+        GetWorld()->SpawnActor<AFindGameHandler>();
     }
 }
 

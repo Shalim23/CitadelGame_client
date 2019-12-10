@@ -23,23 +23,19 @@ void UFindGameWidget::NativeConstruct()
     {
         ReadyButton->OnPressed.AddDynamic(this, &UFindGameWidget::OnReadyButtonPressed);
         
-        ReadyButton->SetIsEnabled(false);
-        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
+        DeactivateReadyButton();
     }
 
-    if (MessageText)
-    {
-        MessageText->SetText(FText::FromString("Finding game..."));
-    }
+    SetMessageText(FText::FromString("Finding game..."));
 
     AddToViewport();
 }
 
 void UFindGameWidget::OnGameFound()
 {
-    if (MessageText && ReadyButton)
+    if (ReadyButton)
     {
-        MessageText->SetText(FText::FromString("Game is found..."));
+        SetMessageText(FText::FromString("Game is found..."));
 
         ReadyButton->SetIsEnabled(true);
         ReadyButton->SetVisibility(ESlateVisibility::Visible);
@@ -68,6 +64,21 @@ void UFindGameWidget::ReturnToMainMenu()
 
 void UFindGameWidget::OnReadyButtonPressed()
 {
-    //#TODO send ready message to server and deactivate button
+    if (BaseGameEvent* readyForGameEvent = EventDispatcher::GetInstance().GetEvent(EventType::ReadyForGame))
+    {
+        DeactivateReadyButton();
+        SetMessageText(FText::FromString("Ready... Waiting for players..."));
+        
+        readyForGameEvent->Broadcast(ReadyForGameEventData());
+    }
+}
+
+void UFindGameWidget::DeactivateReadyButton()
+{
+    if (ReadyButton)
+    {
+        ReadyButton->SetIsEnabled(false);
+        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
+    }
 }
 

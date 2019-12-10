@@ -23,9 +23,13 @@ protected:
 	void BeginPlay() override;
 
 private:
+
     void OnReturnToMainMenu(const EventData& eventData);
     void OnNoServerConnection(const EventData& eventData);
     void OnConnectedToServer(const EventData& eventData);
+    void OnGameFound(const EventData& eventData);
+    void OnAllPlayersReady(const EventData& eventData);
+    void OnPlayersNotReady(const EventData& eventData);
 
     void SubcribeOnEvents();
 
