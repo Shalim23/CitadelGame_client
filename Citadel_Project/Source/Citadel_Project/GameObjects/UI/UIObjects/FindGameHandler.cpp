@@ -2,8 +2,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Components/WidgetComponent.h"
 #include "Custom/Events/EventDispatcher.h"
-#include "GameObjects/NetworkHandler.h"
-#include "GameObjects/UIObjects/Widgets/FindGameWidget.h"
+#include "GameObjects/Network/NetworkHandler.h"
+#include "GameObjects/UI/Widgets/FindGameWidget.h"
 
 AFindGameHandler::AFindGameHandler()
 {

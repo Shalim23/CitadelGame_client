@@ -4,7 +4,7 @@
 #include "Components/TextBlock.h"
 
 #include "Custom/Events/EventDispatcher.h"
-#include "GameObjects/UIObjects/MainMenuHandler.h"
+#include "GameObjects/UI/UIObjects/MainMenuHandler.h"
 
 UFindGameWidget::UFindGameWidget(const FObjectInitializer& objectInitializer)
     : Super(objectInitializer)

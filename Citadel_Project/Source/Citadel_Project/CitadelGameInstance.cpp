@@ -3,7 +3,6 @@
 
 #include "CitadelGameInstance.h"
 #include "Custom/Events/EventDispatcher.h"
-#include "Custom/Events/IdGenerator.h"
 #include "Custom/JsonDataHelper/JsonDataHelper.h"
 
 UCitadelGameInstance::UCitadelGameInstance(const FObjectInitializer& ObjectInitializer)
@@ -12,7 +11,6 @@ UCitadelGameInstance::UCitadelGameInstance(const FObjectInitializer& ObjectIniti
 #if defined(UE_BUILD_DEVELOPMENT) || defined(UE_BUILD_DEBUG)
 
     EventDispatcher::GetInstance().Reset();
-    IdGenerator::GetInstance().Reset();
     JsonDataHelper::GetInstance().Reset();
 #endif
 

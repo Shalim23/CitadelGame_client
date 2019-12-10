@@ -25,7 +25,8 @@ void ANetworkHandler::OnReturnToMainMenu(const EventData& eventData)
         {
             FBufferArchive toBinary;
         
-            toBinary << ClientCancelMessage;
+            FText clientCancelMessage = FText::FromString(ClientCancelMessage);
+            toBinary << clientCancelMessage;
 
             int32 bytesSent = 0;
             m_Socket->Send(toBinary.GetData(), toBinary.TotalSize(), bytesSent);

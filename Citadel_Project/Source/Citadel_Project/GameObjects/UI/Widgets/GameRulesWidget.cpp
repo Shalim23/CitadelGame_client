@@ -9,7 +9,7 @@
 #include "Components/ScrollBox.h"
 #include "Components/SizeBox.h"
 #include "Custom/Events/EventDispatcher.h"
-#include "GameObjects/UIObjects/MainMenuHandler.h"
+#include "GameObjects/UI/UIObjects/MainMenuHandler.h"
 #include "Custom/JsonDataHelper/JsonDataHelper.h"
 
 UGameRulesWidget::UGameRulesWidget(const FObjectInitializer& objectInitializer)

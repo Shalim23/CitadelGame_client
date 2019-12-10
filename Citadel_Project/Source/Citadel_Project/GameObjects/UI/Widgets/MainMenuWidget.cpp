@@ -4,7 +4,7 @@
 #include "MainMenuWidget.h"
 #include "Components/Button.h"
 #include "Custom/Events/EventDispatcher.h"
-#include "GameObjects/UIObjects/GameRulesHandler.h"
+#include "GameObjects/UI/UIObjects/GameRulesHandler.h"
 
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& objectInitializer)
     : Super(objectInitializer)

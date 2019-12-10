@@ -1,5 +1,4 @@
 #include "EventsHandler.h"
-#include "Custom/Events/IdGenerator.h"
 #include "Custom/Events/EventDispatcher.h"
 
 EventsHandler::EventsHandler()

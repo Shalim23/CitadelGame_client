@@ -1,8 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Citadel_ProjectGameModeBase.h"
-#include "GameObjects/UIObjects/MainMenuHandler.h"
+#include "GameObjects/UI/UIObjects/MainMenuHandler.h"
 
 void ACitadel_ProjectGameModeBase::BeginPlay()
 {
