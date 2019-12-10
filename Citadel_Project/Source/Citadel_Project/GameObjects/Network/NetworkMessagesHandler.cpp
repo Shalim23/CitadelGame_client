@@ -4,8 +4,8 @@
 
 void NetworkMessagesHandler::Init()
 {
-    m_NetEventsCallbacks.Add(NotReadyMessage,
-        [this](const FMemoryReader& data) { OnNetNotReadyMessage(data); });
+    m_NetEventsCallbacks.Add(WaitingForPlayersMessage,
+        [this](const FMemoryReader& data) { OnNetWaitingForPlayersMessage(data); });
 
     m_NetEventsCallbacks.Add(AllAreReadyMessage,
         [this](const FMemoryReader& data) { OnNetAllAreReadyMessage(data); });
@@ -22,14 +22,6 @@ void NetworkMessagesHandler::ProcessMessage(const FString& message, const FMemor
     }
 }
 
-void NetworkMessagesHandler::OnNetNotReadyMessage(const FMemoryReader& data)
-{
-    if (BaseGameEvent* playersNotReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::PlayersNotReady))
-    {
-        playersNotReadyEvent->Broadcast(PlayersNotReadyEventData());
-    }
-}
-
 void NetworkMessagesHandler::OnNetAllAreReadyMessage(const FMemoryReader& data)
 {
     if (BaseGameEvent* allPlayersReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::AllPlayersReady))
@@ -43,5 +35,13 @@ void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const FMemoryReader
     if (BaseGameEvent* gameFoundEvent = EventDispatcher::GetInstance().GetEvent(EventType::GameFound))
     {
         gameFoundEvent->Broadcast(GameFoundEventData());
+    }
+}
+
+void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const FMemoryReader& data)
+{
+    if (BaseGameEvent* waitingForPlayersEvent = EventDispatcher::GetInstance().GetEvent(EventType::WaitingForPlayers))
+    {
+        waitingForPlayersEvent->Broadcast(WaitingForPlayersEventData());
     }
 }

@@ -12,8 +12,8 @@ enum class EventType
     ConnectedToServer,
     GameFound,
     AllPlayersReady,
-    PlayersNotReady,
     ServerConnectionLost,
+    WaitingForPlayers,
 };
 
 struct EventData
@@ -57,10 +57,19 @@ DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, NoServerConnectionEvent)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, ConnectedToServerEvent)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, GameFoundEvent)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, AllPlayersReadyEvent)
-DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, PlayersNotReadyEvent)
 DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, ServerConnectionLostEvent)
+DECLARE_DERIVED_EVENT(EventDispatcher, BaseGameEvent, WaitingForPlayersEvent)
 
 //Client events data
+
+struct WaitingForPlayersEventData : public EventData
+{
+    using Super = EventData;
+
+    WaitingForPlayersEventData()
+        : Super(EventType::WaitingForPlayers)
+    {}
+};
 
 struct ServerConnectionLostEventData : public EventData
 {
@@ -77,15 +86,6 @@ struct AllPlayersReadyEventData : public EventData
 
     AllPlayersReadyEventData()
         : Super(EventType::AllPlayersReady)
-    {}
-};
-
-struct PlayersNotReadyEventData : public EventData
-{
-    using Super = EventData;
-
-    PlayersNotReadyEventData()
-        : Super(EventType::PlayersNotReady)
     {}
 };
 

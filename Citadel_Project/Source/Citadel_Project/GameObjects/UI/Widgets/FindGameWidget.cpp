@@ -53,6 +53,17 @@ void UFindGameWidget::OnGameFound()
     }
 }
 
+void UFindGameWidget::OnWaitingForPlayers()
+{
+    if (ReadyButton)
+    {
+        SetMessageText("Waiting for players...");
+
+        ReadyButton->SetIsEnabled(false);
+        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
+    }
+}
+
 void UFindGameWidget::ReturnToMainMenu()
 {
     if (BaseGameEvent* returnToMainMenuEvent =

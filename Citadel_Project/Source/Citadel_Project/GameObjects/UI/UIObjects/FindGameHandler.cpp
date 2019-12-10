@@ -74,20 +74,20 @@ void AFindGameHandler::OnAllPlayersReady(const EventData& eventData)
     //#TODO implement further game flow!!!
     if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
     {
-        widget->SetMessageText("All are ready!");
+        widget->SetMessageText("All is ready!");
     }
 }
 
-void AFindGameHandler::OnPlayersNotReady(const EventData& eventData)
+void AFindGameHandler::OnWaitingForPlayers(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::PlayersNotReady)
+    if (eventData.eventType != EventType::WaitingForPlayers)
     {
         return;
     }
 
     if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
     {
-        widget->SetMessageText("Players are not ready...");
+        widget->OnWaitingForPlayers();
     }
 }
 
@@ -99,7 +99,6 @@ void AFindGameHandler::SubcribeOnEvents()
         {EventType::ConnectedToServer, [this](const EventData& eventData) { OnConnectedToServer(eventData); }},
         {EventType::GameFound, [this](const EventData& eventData) { OnGameFound(eventData); }},
         {EventType::AllPlayersReady, [this](const EventData& eventData) { OnAllPlayersReady(eventData); }},
-        {EventType::PlayersNotReady, [this](const EventData& eventData) { OnPlayersNotReady(eventData); }},
         });
 }
 
