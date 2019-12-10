@@ -4,7 +4,7 @@
 class NetworkMessagesHandler
 {
 public:
-    NetworkMessagesHandler();
+    void Init();
 
     void ProcessMessage(const FString& message, const FMemoryReader& data);
 

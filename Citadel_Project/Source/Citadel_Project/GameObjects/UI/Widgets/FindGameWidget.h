@@ -17,7 +17,7 @@ class CITADEL_PROJECT_API UFindGameWidget : public UUserWidget
 public:
     UFindGameWidget(const FObjectInitializer& objectInitializer);
 
-    void SetMessageText(const FText& text);
+    void SetMessageText(const char* text);
     void OnGameFound();
 
 protected:
@@ -33,6 +33,7 @@ protected:
 private:
     void NativeConstruct() override;
     void DeactivateReadyButton();
+
 
     UFUNCTION()
     void ReturnToMainMenu();

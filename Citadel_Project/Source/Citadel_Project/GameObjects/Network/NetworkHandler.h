@@ -25,6 +25,7 @@ private:
     void Send(FBufferArchive& data);
     void Deserialize(const TArray<uint8>& data);
 
+    void Init();
     void Connect();
     void OnReturnToMainMenu(const EventData& eventData);
     void OnPlayerReady(const EventData& eventData);

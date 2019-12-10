@@ -2,7 +2,7 @@
 #include "NetworkEventsStrings.h"
 #include "Custom/Events/EventDispatcher.h"
 
-NetworkMessagesHandler::NetworkMessagesHandler()
+void NetworkMessagesHandler::Init()
 {
     m_NetEventsCallbacks.Add(NotReadyMessage,
         [this](const FMemoryReader& data) { OnNetNotReadyMessage(data); });

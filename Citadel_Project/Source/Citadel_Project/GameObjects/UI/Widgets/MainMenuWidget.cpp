@@ -52,12 +52,17 @@ void UMainMenuWidget::ExitGame()
 
 void UMainMenuWidget::FindGame()
 {
-    if (BaseGameEvent* findGameEvent = EventDispatcher::GetInstance().GetEvent(EventType::FindGame))
-    {
-        findGameEvent->Broadcast(FindGameEventData());
+    EventDispatcher& eventDispatcherInstance = EventDispatcher::GetInstance();
+    BaseGameEvent* findGameEvent = eventDispatcherInstance.GetEvent(EventType::FindGame);
+    BaseGameEvent* leaveFromMainMenuEvent = eventDispatcherInstance.GetEvent(EventType::LeaveFromMainMenu);
 
+    if (findGameEvent && leaveFromMainMenuEvent)
+    {
         RemoveFromParent();
         GetWorld()->SpawnActor<AFindGameHandler>();
+
+        findGameEvent->Broadcast(FindGameEventData());
+        leaveFromMainMenuEvent->Broadcast(LeaveFromMainMenuEventData());
     }
 }
 

@@ -6,7 +6,6 @@
 
 
 ANetworkHandler::ANetworkHandler()
-    : m_NetworkMessagesHandler()
 {
     PrimaryActorTick.bCanEverTick = false;
 }
@@ -82,12 +81,18 @@ void ANetworkHandler::Connect()
     }
 }
 
+void ANetworkHandler::Init()
+{
+    m_NetworkMessagesHandler.Init();
+    SubscribeOnEvents();
+    Connect();
+}
+
 void ANetworkHandler::BeginPlay()
 {
     Super::BeginPlay();
 
-    SubscribeOnEvents();
-    Connect();
+    Init();
 }
 
 void ANetworkHandler::Tick(float DeltaTime)

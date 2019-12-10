@@ -16,8 +16,6 @@ AGameRulesHandler::AGameRulesHandler()
     {
         m_widget->SetWidgetClass(widget.Class);
     }
-
-    SubcribeOnEvents();
 }
 
 void AGameRulesHandler::OnReturnToMainMenu(const EventData& eventData)
@@ -41,6 +39,8 @@ void AGameRulesHandler::SubcribeOnEvents()
 void AGameRulesHandler::BeginPlay()
 {
     Super::BeginPlay();
+
+    SubcribeOnEvents();
 }
 
 void AGameRulesHandler::Tick(float DeltaTime)

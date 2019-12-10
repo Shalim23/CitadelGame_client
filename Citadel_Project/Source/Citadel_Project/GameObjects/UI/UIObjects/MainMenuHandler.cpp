@@ -16,8 +16,6 @@ AMainMenuHandler::AMainMenuHandler()
     {
         m_widget->SetWidgetClass(widget.Class);
     }
-
-    SubcribeOnEvents();
 }
 
 void AMainMenuHandler::SubcribeOnEvents()
@@ -41,7 +39,7 @@ void AMainMenuHandler::OnLeaveMainMenu(const EventData& eventData)
 void AMainMenuHandler::BeginPlay()
 {
     Super::BeginPlay();
-
+    SubcribeOnEvents();
 }
 
 void AMainMenuHandler::Tick(float DeltaTime)

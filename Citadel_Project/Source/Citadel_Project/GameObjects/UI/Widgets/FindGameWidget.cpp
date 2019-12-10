@@ -5,6 +5,7 @@
 
 #include "Custom/Events/EventDispatcher.h"
 #include "GameObjects/UI/UIObjects/MainMenuHandler.h"
+#include "GameObjects/Network/NetworkHandler.h"
 
 UFindGameWidget::UFindGameWidget(const FObjectInitializer& objectInitializer)
     : Super(objectInitializer)
@@ -26,27 +27,29 @@ void UFindGameWidget::NativeConstruct()
         DeactivateReadyButton();
     }
 
-    SetMessageText(FText::FromString("Finding game..."));
+    SetMessageText("Finding game...");
 
     AddToViewport();
+
+    GetWorld()->SpawnActor<ANetworkHandler>();
+}
+
+void UFindGameWidget::SetMessageText(const char* text) 
+{
+    if (MessageText)
+    {
+        MessageText->SetText(FText::FromString(text));
+    }
 }
 
 void UFindGameWidget::OnGameFound()
 {
     if (ReadyButton)
     {
-        SetMessageText(FText::FromString("Game is found..."));
+        SetMessageText("Game is found...");
 
         ReadyButton->SetIsEnabled(true);
         ReadyButton->SetVisibility(ESlateVisibility::Visible);
-    }
-}
-
-void UFindGameWidget::SetMessageText(const FText& text)
-{
-    if (MessageText)
-    {
-        MessageText->SetText(text);
     }
 }
 
@@ -67,7 +70,7 @@ void UFindGameWidget::OnReadyButtonPressed()
     if (BaseGameEvent* readyForGameEvent = EventDispatcher::GetInstance().GetEvent(EventType::ReadyForGame))
     {
         DeactivateReadyButton();
-        SetMessageText(FText::FromString("Ready... Waiting for players..."));
+        SetMessageText("Ready... Waiting for players...");
         
         readyForGameEvent->Broadcast(ReadyForGameEventData());
     }
