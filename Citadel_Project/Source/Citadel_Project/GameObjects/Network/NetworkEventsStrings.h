@@ -1,7 +1,11 @@
 #pragma once
+#include "Containers/UnrealString.h"
 
-static const char* WaitingForReadinessMessage = "WaitingForReadiness";
-static const char* IsReadyMessage = "IsReady";
-static const char* NotReadyMessage = "NotReady";
-static const char* AllAreReadyMessage = "AllAreReady";
-static const char* ClientCancelMessage = "ClientCancel";
+//messages from server
+static const FString WaitingForReadinessMessage = "WaitingForReadiness";
+static const FString AllAreReadyMessage = "AllAreReady";
+static const FString NotReadyMessage = "NotReady";
+
+//messages from client
+static const FString IsReadyMessage = "IsReady";
+static const FString ClientCancelMessage = "ClientCancel";

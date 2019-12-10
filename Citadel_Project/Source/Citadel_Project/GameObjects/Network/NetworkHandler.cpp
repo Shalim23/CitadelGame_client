@@ -6,6 +6,7 @@
 
 
 ANetworkHandler::ANetworkHandler()
+    : m_NetworkMessagesHandler()
 {
     PrimaryActorTick.bCanEverTick = false;
 }
@@ -28,8 +29,7 @@ void ANetworkHandler::OnReturnToMainMenu(const EventData& eventData)
             FText clientCancelMessage = FText::FromString(ClientCancelMessage);
             toBinary << clientCancelMessage;
 
-            int32 bytesSent = 0;
-            m_Socket->Send(toBinary.GetData(), toBinary.TotalSize(), bytesSent);
+            Send(toBinary);
         }
 
         m_Socket->Close();
@@ -58,7 +58,6 @@ void ANetworkHandler::Connect()
         {
             connectedToServerEvent->Broadcast(ConnectedToServerEventData());
         }
-        //#TODO send event to FindGameHandler to display connected message
     }
     else
     {
@@ -84,18 +83,16 @@ void ANetworkHandler::Tick(float DeltaTime)
     m_Socket->Recv(m_Buffer, m_NetMessageSize, m_BytesRead);
     if (m_BytesRead > 0)
     {
-        DeserializeAndSend(TArray<uint8>(m_Buffer, m_BytesRead));
+        Deserialize(TArray<uint8>(m_Buffer, m_BytesRead));
 
         m_BytesRead = 0;
     }
 }
 
-void ANetworkHandler::SerializeAndSend()
+void ANetworkHandler::Send(FBufferArchive& data)
 {
-    FBufferArchive toBinary;
-
     int32 sent = 0;
-    m_Socket->Send(toBinary.GetData(), toBinary.TotalSize(), sent);
+    m_Socket->Send(data.GetData(), data.TotalSize(), sent);
 
     int error = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->GetLastErrorCode();
     if (error == SE_ECONNRESET)
@@ -104,13 +101,12 @@ void ANetworkHandler::SerializeAndSend()
     }
 }
 
-void ANetworkHandler::DeserializeAndSend(TArray<uint8> data)
+void ANetworkHandler::Deserialize(const TArray<uint8>& data)
 {
     FMemoryReader fromBinary(data, true);
     FText eventName;
 
     fromBinary << eventName;
 
-    //#TODO create map<eventName, callback>(separate class)
-    //process events
+    m_NetworkMessagesHandler.ProcessMessage(eventName.ToString(), fromBinary);
 }
