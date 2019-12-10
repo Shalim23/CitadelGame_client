@@ -24,7 +24,7 @@ void ANetworkHandler::OnPlayerReady(const EventData& eventData)
     {
         FBufferArchive toBinary;
 
-        FText isReadyMessage = FText::FromString(IsReadyMessage);
+        FString isReadyMessage(IsReadyMessage);
         toBinary << isReadyMessage;
 
         Send(toBinary);
@@ -39,7 +39,7 @@ void ANetworkHandler::OnReturnToMainMenu(const EventData& eventData)
         {
             FBufferArchive toBinary;
         
-            FText clientCancelMessage = FText::FromString(ClientCancelMessage);
+            FString clientCancelMessage(ClientCancelMessage);
             toBinary << clientCancelMessage;
 
             Send(toBinary);
