@@ -10,6 +10,7 @@ public:
 
 private:
     void OnNetAllAreReadyMessage(const FMemoryReader& data);
+    void OnNetNotReadyMessage(const FMemoryReader& data);
     void OnNetWaitingForReadinessMessage(const FMemoryReader& data);
     void OnNetWaitingForPlayersMessage(const FMemoryReader& data);
 

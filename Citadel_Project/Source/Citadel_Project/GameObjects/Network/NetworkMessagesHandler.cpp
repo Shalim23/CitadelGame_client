@@ -45,3 +45,11 @@ void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const FMemoryReader& 
         waitingForPlayersEvent->Broadcast(WaitingForPlayersEventData());
     }
 }
+
+void NetworkMessagesHandler::OnNetNotReadyMessage(const FMemoryReader& data)
+{
+    if (BaseGameEvent* notReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::NotReady))
+    {
+        notReadyEvent->Broadcast(NotReadyEventData());
+    }
+}

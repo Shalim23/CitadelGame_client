@@ -12,6 +12,7 @@ EventDispatcher::EventDispatcher()
     m_Events.insert({ EventType::ConnectedToServer, std::make_unique<ConnectedToServerEvent>() });
     m_Events.insert({ EventType::GameFound, std::make_unique<GameFoundEvent>() });
     m_Events.insert({ EventType::AllPlayersReady, std::make_unique<AllPlayersReadyEvent>() });
+    m_Events.insert({ EventType::NotReady, std::make_unique<NotReadyEvent>() });
     m_Events.insert({ EventType::ServerConnectionLost, std::make_unique<ServerConnectionLostEvent>() });
     m_Events.insert({ EventType::WaitingForPlayers, std::make_unique<WaitingForPlayersEvent>() });
 }
