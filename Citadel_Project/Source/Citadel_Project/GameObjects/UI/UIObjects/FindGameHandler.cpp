@@ -91,6 +91,19 @@ void AFindGameHandler::OnWaitingForPlayers(const EventData& eventData)
     }
 }
 
+void AFindGameHandler::OnNotReady(const EventData& eventData)
+{
+    if (eventData.eventType != EventType::NotReady)
+    {
+        return;
+    }
+
+    if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
+    {
+        widget->OnNotReady();
+    }
+}
+
 void AFindGameHandler::SubcribeOnEvents()
 {
     m_EventsHandler.subscribe({
@@ -99,6 +112,8 @@ void AFindGameHandler::SubcribeOnEvents()
         {EventType::ConnectedToServer, [this](const EventData& eventData) { OnConnectedToServer(eventData); }},
         {EventType::GameFound, [this](const EventData& eventData) { OnGameFound(eventData); }},
         {EventType::AllPlayersReady, [this](const EventData& eventData) { OnAllPlayersReady(eventData); }},
+        {EventType::NotReady, [this](const EventData& eventData) { OnNotReady(eventData); }},
+        {EventType::WaitingForPlayers, [this](const EventData& eventData) { OnWaitingForPlayers(eventData); }},
         });
 }
 

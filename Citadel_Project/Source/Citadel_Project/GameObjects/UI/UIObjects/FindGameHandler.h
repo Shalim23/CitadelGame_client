@@ -29,6 +29,7 @@ private:
     void OnConnectedToServer(const EventData& eventData);
     void OnGameFound(const EventData& eventData);
     void OnAllPlayersReady(const EventData& eventData);
+    void OnNotReady(const EventData& eventData);
     void OnWaitingForPlayers(const EventData& eventData);
 
     void SubcribeOnEvents();

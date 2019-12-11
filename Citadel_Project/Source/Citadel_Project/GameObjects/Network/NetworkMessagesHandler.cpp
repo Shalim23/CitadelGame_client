@@ -12,6 +12,9 @@ void NetworkMessagesHandler::Init()
 
     m_NetEventsCallbacks.Add(WaitingForReadinessMessage,
         [this](const FMemoryReader& data) { OnNetWaitingForReadinessMessage(data); });
+
+    m_NetEventsCallbacks.Add(NotReadyMessage,
+        [this](const FMemoryReader& data) { OnNetNotReadyMessage(data); });
 }
 
 void NetworkMessagesHandler::ProcessMessage(const FString& message, const FMemoryReader& data)

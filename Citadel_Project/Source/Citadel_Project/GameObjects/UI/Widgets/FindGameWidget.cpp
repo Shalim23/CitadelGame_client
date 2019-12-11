@@ -64,6 +64,17 @@ void UFindGameWidget::OnWaitingForPlayers()
     }
 }
 
+void UFindGameWidget::OnNotReady()
+{
+    if (ReadyButton)
+    {
+        SetMessageText("You are not ready...");
+
+        ReadyButton->SetIsEnabled(false);
+        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
+    }
+}
+
 void UFindGameWidget::ReturnToMainMenu()
 {
     if (BaseGameEvent* returnToMainMenuEvent =

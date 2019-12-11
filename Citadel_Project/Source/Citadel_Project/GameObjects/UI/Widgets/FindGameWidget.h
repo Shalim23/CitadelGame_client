@@ -20,6 +20,7 @@ public:
     void SetMessageText(const char* text);
     void OnGameFound();
     void OnWaitingForPlayers();
+    void OnNotReady();
 
 protected:
     UPROPERTY(BlueprintReadWrite, meta = (BindWidget))

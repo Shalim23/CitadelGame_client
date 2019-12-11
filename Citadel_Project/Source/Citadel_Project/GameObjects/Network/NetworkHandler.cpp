@@ -7,7 +7,8 @@
 
 ANetworkHandler::ANetworkHandler()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
+    SetActorTickEnabled(false);
 }
 
 void ANetworkHandler::SubscribeOnEvents()
@@ -65,7 +66,7 @@ void ANetworkHandler::Connect()
     m_Socket->Connect(*Addr);
     if (m_Socket->GetConnectionState() == SCS_Connected)
     {
-        PrimaryActorTick.bCanEverTick = true;
+        SetActorTickEnabled(true);
 
         if (BaseGameEvent* connectedToServerEvent = EventDispatcher::GetInstance().GetEvent(EventType::ConnectedToServer))
         {
@@ -127,9 +128,9 @@ void ANetworkHandler::Send(FBufferArchive& data)
 void ANetworkHandler::Deserialize(const TArray<uint8>& data)
 {
     FMemoryReader fromBinary(data, true);
-    FText eventName;
+    FString eventName;
 
     fromBinary << eventName;
 
-    m_NetworkMessagesHandler.ProcessMessage(eventName.ToString(), fromBinary);
+    m_NetworkMessagesHandler.ProcessMessage(eventName, fromBinary);
 }
