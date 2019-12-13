@@ -1,6 +1,9 @@
 #pragma once
 #include <functional>
 
+class FBufferArchive;
+class FMemoryReader;
+
 enum class EventType
 {
     Base,
@@ -20,6 +23,10 @@ enum class EventType
 struct EventData
 {
     EventType eventType;
+
+public:
+    virtual void Serialize(FBufferArchive& data) {}
+    virtual void Deserialize(FMemoryReader& data) {}
 
 protected:
     EventData(const EventType& otherEventType)

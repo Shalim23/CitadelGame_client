@@ -1,5 +1,5 @@
 #include "NetworkMessagesHandler.h"
-#include "NetworkEventsStrings.h"
+#include "NetworkData.h"
 #include "Custom/Events/EventDispatcher.h"
 
 void NetworkMessagesHandler::Init()

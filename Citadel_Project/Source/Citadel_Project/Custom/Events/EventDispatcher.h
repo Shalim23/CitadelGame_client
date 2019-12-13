@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <unordered_map>
-#include "Custom/Singleton.h"
+#include "Custom/Singleton/Singleton.h"
 #include "Events.h"
 
 class EventDispatcher : public Singleton<EventDispatcher>
@@ -9,13 +9,11 @@ class EventDispatcher : public Singleton<EventDispatcher>
     using Super = Singleton;
 
 public:
-    EventDispatcher();
+    void Init() override;
 
     std::vector<EventDelegateHandle> subscribe(const std::vector<EventSubscribeData>& callbacks);
 
     void unsubscribe(const std::vector<EventDelegateHandle>& callbacksData);
-
-    void Reset();
 
     BaseGameEvent* GetEvent(const EventType& eventType);
 

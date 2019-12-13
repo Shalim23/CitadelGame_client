@@ -5,7 +5,6 @@
 
 #include "Custom/Events/EventDispatcher.h"
 #include "GameObjects/UI/UIObjects/MainMenuHandler.h"
-#include "GameObjects/Network/NetworkHandler.h"
 
 UFindGameWidget::UFindGameWidget(const FObjectInitializer& objectInitializer)
     : Super(objectInitializer)
@@ -31,7 +30,10 @@ void UFindGameWidget::NativeConstruct()
 
     AddToViewport();
 
-    GetWorld()->SpawnActor<ANetworkHandler>();
+    if (m_OnConstructedCallback)
+    {
+        m_OnConstructedCallback();
+    }
 }
 
 void UFindGameWidget::SetMessageText(const char* text) 
@@ -44,10 +46,10 @@ void UFindGameWidget::SetMessageText(const char* text)
 
 void UFindGameWidget::OnGameFound()
 {
+    SetMessageText("Game is found...");
+
     if (ReadyButton)
     {
-        SetMessageText("Game is found...");
-
         ReadyButton->SetIsEnabled(true);
         ReadyButton->SetVisibility(ESlateVisibility::Visible);
     }
@@ -55,24 +57,25 @@ void UFindGameWidget::OnGameFound()
 
 void UFindGameWidget::OnWaitingForPlayers()
 {
-    if (ReadyButton)
-    {
-        SetMessageText("Waiting for players...");
-
-        ReadyButton->SetIsEnabled(false);
-        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
-    }
+    SetMessageText("Waiting for players...");
+    DeactivateReadyButton();
 }
 
 void UFindGameWidget::OnNotReady()
 {
-    if (ReadyButton)
-    {
-        SetMessageText("You are not ready...");
+    SetMessageText("You are not ready...");
+    DeactivateReadyButton();
+}
 
-        ReadyButton->SetIsEnabled(false);
-        ReadyButton->SetVisibility(ESlateVisibility::Hidden);
-    }
+void UFindGameWidget::OnConnectionLost()
+{
+    SetMessageText("Connection lost...");
+    DeactivateReadyButton();
+}
+
+void UFindGameWidget::SetOnConstructedCallback(std::function<void()> callback)
+{
+    m_OnConstructedCallback = callback;
 }
 
 void UFindGameWidget::ReturnToMainMenu()

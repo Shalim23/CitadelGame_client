@@ -1,8 +1,7 @@
 #include "EventDispatcher.h"
 
 
-EventDispatcher::EventDispatcher()
-    : Super()
+void EventDispatcher::Init()
 {
     m_Events.insert({ EventType::LeaveFromMainMenu, std::make_unique<LeaveFromMainMenuEvent>() });
     m_Events.insert({ EventType::ReturnToMainMenu, std::make_unique<ReturnToMainMenuEvent>() });
@@ -26,14 +25,6 @@ BaseGameEvent* EventDispatcher::GetEvent(const EventType& eventType)
     }
     
     return nullptr;
-}
-
-void EventDispatcher::Reset()
-{
-    for (auto& _event : m_Events)
-    {
-        _event.second->Clear();
-    }
 }
 
 std::vector<EventDelegateHandle> EventDispatcher::subscribe(const std::vector<EventSubscribeData>& callbacks)

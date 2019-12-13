@@ -32,6 +32,8 @@ private:
     void OnNotReady(const EventData& eventData);
     void OnWaitingForPlayers(const EventData& eventData);
 
+    void OnWidgetConstructed();
+
     void SubcribeOnEvents();
 
 private:

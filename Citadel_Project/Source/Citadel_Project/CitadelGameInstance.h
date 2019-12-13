@@ -6,13 +6,12 @@
 #include "Engine/GameInstance.h"
 #include "CitadelGameInstance.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class CITADEL_PROJECT_API UCitadelGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:
     UCitadelGameInstance(const FObjectInitializer& ObjectInitializer);
+    void Shutdown() override;
 };

@@ -3,6 +3,7 @@
 #include "Components/WidgetComponent.h"
 #include "Custom/Events/EventDispatcher.h"
 #include "GameObjects/UI/Widgets/FindGameWidget.h"
+#include "GameObjects/Network/NetworkManager.h"
 
 AFindGameHandler::AFindGameHandler()
 {
@@ -27,14 +28,19 @@ void AFindGameHandler::OnReturnToMainMenu(const EventData& eventData)
 
 void AFindGameHandler::OnNoServerConnection(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::NoServerConnection)
+    if (eventData.eventType == EventType::NoServerConnection)
     {
-        return;
+        if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
+        {
+            widget->SetMessageText("Server is down...");
+        }
     }
-
-    if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
+    else if (eventData.eventType == EventType::ServerConnectionLost)
     {
-        widget->SetMessageText("Server is down...");
+        if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
+        {
+            widget->OnConnectionLost();
+        }
     }
 }
 
@@ -91,6 +97,11 @@ void AFindGameHandler::OnWaitingForPlayers(const EventData& eventData)
     }
 }
 
+void AFindGameHandler::OnWidgetConstructed()
+{
+    GetWorld()->SpawnActor<ANetworkManager>();
+}
+
 void AFindGameHandler::OnNotReady(const EventData& eventData)
 {
     if (eventData.eventType != EventType::NotReady)
@@ -114,6 +125,7 @@ void AFindGameHandler::SubcribeOnEvents()
         {EventType::AllPlayersReady, [this](const EventData& eventData) { OnAllPlayersReady(eventData); }},
         {EventType::NotReady, [this](const EventData& eventData) { OnNotReady(eventData); }},
         {EventType::WaitingForPlayers, [this](const EventData& eventData) { OnWaitingForPlayers(eventData); }},
+        {EventType::ServerConnectionLost, [this](const EventData& eventData) { OnNoServerConnection(eventData); }},
         });
 }
 
@@ -122,6 +134,11 @@ void AFindGameHandler::BeginPlay()
 	Super::BeginPlay();
 
     SubcribeOnEvents();
+
+    if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
+    {
+        widget->SetOnConstructedCallback([this]() { OnWidgetConstructed(); });
+    }
 }
 
 void AFindGameHandler::Tick(float DeltaTime)

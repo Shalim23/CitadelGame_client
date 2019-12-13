@@ -2,17 +2,18 @@
 
 
 #include "CitadelGameInstance.h"
-#include "Custom/Events/EventDispatcher.h"
-#include "Custom/JsonDataHelper/JsonDataHelper.h"
+#include "Custom/Singleton/SingletonManager.h"
+
 
 UCitadelGameInstance::UCitadelGameInstance(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
-#if defined(UE_BUILD_DEVELOPMENT) || defined(UE_BUILD_DEBUG)
+    SingletonManager::GetInstance().Init();
+}
 
-    EventDispatcher::GetInstance().Reset();
-    JsonDataHelper::GetInstance().Reset();
-#endif
+void UCitadelGameInstance::Shutdown()
+{
+    Super::Shutdown();
 
-    JsonDataHelper::GetInstance().InitJsonData();
+    SingletonManager::GetInstance().Shutdown();
 }

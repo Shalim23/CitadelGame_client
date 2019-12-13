@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include <functional>
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "FindGameWidget.generated.h"
@@ -21,6 +21,9 @@ public:
     void OnGameFound();
     void OnWaitingForPlayers();
     void OnNotReady();
+    void OnConnectionLost();
+
+    void SetOnConstructedCallback(std::function<void()> callback);
 
 protected:
     UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -42,5 +45,8 @@ private:
 
     UFUNCTION()
     void OnReadyButtonPressed();
+
+private:
+    std::function<void()> m_OnConstructedCallback;
 	
 };

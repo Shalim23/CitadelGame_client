@@ -1,11 +1,6 @@
 #include "JsonDataHelper.h"
 
-void JsonDataHelper::InitJsonData()
+void JsonDataHelper::Init()
 {
     m_GameRulesDataHelper.InitGameRulesData();
-}
-
-void JsonDataHelper::Reset()
-{
-    m_GameRulesDataHelper = GameRulesDataHelper();
 }
