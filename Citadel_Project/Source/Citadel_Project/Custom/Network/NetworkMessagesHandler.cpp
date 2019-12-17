@@ -1,31 +1,38 @@
 #include "NetworkMessagesHandler.h"
 #include "NetworkData.h"
 #include "Custom/Events/EventDispatcher.h"
+#include "Serialization/JsonSerializer.h"
 
 void NetworkMessagesHandler::Init()
 {
     m_NetEventsCallbacks.Add(WaitingForPlayersMessage,
-        [this](const FMemoryReader& data) { OnNetWaitingForPlayersMessage(data); });
+        [this](const TSharedPtr<FJsonObject>& jsonObject) { OnNetWaitingForPlayersMessage(jsonObject); });
 
     m_NetEventsCallbacks.Add(AllAreReadyMessage,
-        [this](const FMemoryReader& data) { OnNetAllAreReadyMessage(data); });
+        [this](const TSharedPtr<FJsonObject>& jsonObject) { OnNetAllAreReadyMessage(jsonObject); });
 
     m_NetEventsCallbacks.Add(WaitingForReadinessMessage,
-        [this](const FMemoryReader& data) { OnNetWaitingForReadinessMessage(data); });
+        [this](const TSharedPtr<FJsonObject>& jsonObject) { OnNetWaitingForReadinessMessage(jsonObject); });
 
     m_NetEventsCallbacks.Add(NotReadyMessage,
-        [this](const FMemoryReader& data) { OnNetNotReadyMessage(data); });
+        [this](const TSharedPtr<FJsonObject>& jsonObject) { OnNetNotReadyMessage(jsonObject); });
 }
 
-void NetworkMessagesHandler::ProcessMessage(const FString& message, const FMemoryReader& data)
+void NetworkMessagesHandler::ProcessMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    if (auto callback = m_NetEventsCallbacks.Find(message))
+    FString messageName;
+    TSharedPtr<FJsonValue> messageNameField = jsonObject->TryGetField(MessageNameJsonKey);
+    if (messageNameField && messageNameField->TryGetString(messageName))
     {
-        (*callback)(data);
+        if (auto callback = m_NetEventsCallbacks.Find(messageName))
+        {
+            (*callback)(jsonObject);
+        }
     }
+    
 }
 
-void NetworkMessagesHandler::OnNetAllAreReadyMessage(const FMemoryReader& data)
+void NetworkMessagesHandler::OnNetAllAreReadyMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
     if (BaseGameEvent* allPlayersReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::AllPlayersReady))
     {
@@ -33,7 +40,7 @@ void NetworkMessagesHandler::OnNetAllAreReadyMessage(const FMemoryReader& data)
     }
 }
 
-void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const FMemoryReader& data)
+void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
     if (BaseGameEvent* gameFoundEvent = EventDispatcher::GetInstance().GetEvent(EventType::GameFound))
     {
@@ -41,7 +48,7 @@ void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const FMemoryReader
     }
 }
 
-void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const FMemoryReader& data)
+void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
     if (BaseGameEvent* waitingForPlayersEvent = EventDispatcher::GetInstance().GetEvent(EventType::WaitingForPlayers))
     {
@@ -49,7 +56,7 @@ void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const FMemoryReader& 
     }
 }
 
-void NetworkMessagesHandler::OnNetNotReadyMessage(const FMemoryReader& data)
+void NetworkMessagesHandler::OnNetNotReadyMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
     if (BaseGameEvent* notReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::NotReady))
     {

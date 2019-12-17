@@ -6,14 +6,14 @@ class NetworkMessagesHandler
 public:
     void Init();
 
-    void ProcessMessage(const FString& message, const FMemoryReader& data);
+    void ProcessMessage(const TSharedPtr<FJsonObject>& jsonObject);
 
 private:
-    void OnNetAllAreReadyMessage(const FMemoryReader& data);
-    void OnNetNotReadyMessage(const FMemoryReader& data);
-    void OnNetWaitingForReadinessMessage(const FMemoryReader& data);
-    void OnNetWaitingForPlayersMessage(const FMemoryReader& data);
+    void OnNetAllAreReadyMessage(const TSharedPtr<FJsonObject>& jsonObject);
+    void OnNetNotReadyMessage(const TSharedPtr<FJsonObject>& jsonObject);
+    void OnNetWaitingForReadinessMessage(const TSharedPtr<FJsonObject>& jsonObject);
+    void OnNetWaitingForPlayersMessage(const TSharedPtr<FJsonObject>& jsonObject);
 
 private:
-    TMap<FString, std::function<void(const FMemoryReader&)>> m_NetEventsCallbacks;
+    TMap<FString, std::function<void(const TSharedPtr<FJsonObject>&)>> m_NetEventsCallbacks;
 };

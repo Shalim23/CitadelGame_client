@@ -28,7 +28,7 @@ private:
 
     void Shutdown();
     void SubscribeOnEvents();
-    void ProcessMessage(const MessageFromServer& message);
+    void ProcessMessage(const TSharedPtr<FJsonObject>& jsonObject);
     void OnConnectionError();
 
 private:

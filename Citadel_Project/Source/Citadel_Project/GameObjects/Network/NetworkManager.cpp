@@ -2,7 +2,7 @@
 #include "Custom/Events/Events.h"
 #include "Custom/Events/EventDispatcher.h"
 #include "Serialization/BufferArchive.h"
-
+#include "Serialization/JsonSerializer.h"
 
 ANetworkManager::ANetworkManager()
 {
@@ -17,7 +17,7 @@ void ANetworkManager::BeginPlay()
     SubscribeOnEvents();
 
     m_NetworkSocketHandler.SetMessageFromServerCallback(
-        [this](const MessageFromServer& message) { ProcessMessage(message); });
+        [this](const TSharedPtr<FJsonObject>& jsonObject) { ProcessMessage(jsonObject); });
 
     m_NetworkSocketHandler.SetSendErrorCallback(
         [this]() { OnConnectionError(); });
@@ -33,12 +33,10 @@ void ANetworkManager::OnReturnToMainMenu(const EventData& eventData)
     {
         if (m_IsConnected)
         {
-            FBufferArchive toBinary;
+            TSharedPtr<FJsonObject> messageObject = MakeShareable(new FJsonObject);
+            messageObject->SetStringField(MessageNameJsonKey, ClientCancelMessage);
 
-            FString clientCancelMessage(ClientCancelMessage);
-            toBinary << clientCancelMessage;
-
-            m_NetworkSocketHandler.Send(toBinary);
+            m_NetworkSocketHandler.Send(messageObject);
         }
 
         Shutdown();
@@ -51,10 +49,10 @@ void ANetworkManager::OnPlayerReady(const EventData& eventData)
     {
         FBufferArchive toBinary;
 
-        FString isReadyMessage(IsReadyMessage);
-        toBinary << isReadyMessage;
+        TSharedPtr<FJsonObject> messageObject = MakeShareable(new FJsonObject);
+        messageObject->SetStringField(MessageNameJsonKey, IsReadyMessage);
 
-        m_NetworkSocketHandler.Send(toBinary);
+        m_NetworkSocketHandler.Send(messageObject);
     }
 }
 
@@ -94,9 +92,9 @@ void ANetworkManager::SubscribeOnEvents()
         });
 }
 
-void ANetworkManager::ProcessMessage(const MessageFromServer& message)
+void ANetworkManager::ProcessMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    m_NetworkMessagesHandler.ProcessMessage(message.messageName, message.data);
+    m_NetworkMessagesHandler.ProcessMessage(jsonObject);
 }
 
 void ANetworkManager::OnConnectionError()

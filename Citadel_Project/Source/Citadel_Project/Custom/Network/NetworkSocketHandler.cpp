@@ -1,8 +1,9 @@
 #include "NetworkSocketHandler.h"
 #include "Networking.h"
+#include "Serialization/JsonSerializer.h"
 
 
-void NetworkSocketHandler::SetMessageFromServerCallback(std::function<void(const MessageFromServer&)> callback)
+void NetworkSocketHandler::SetMessageFromServerCallback(std::function<void(const TSharedPtr<FJsonObject>&)> callback)
 {
     m_MessageFromServerCallback = callback;
 }
@@ -26,7 +27,18 @@ void NetworkSocketHandler::Receive()
     m_Socket->Recv(m_Buffer, m_NetMessageSize, m_BytesRead);
     if (m_BytesRead > 0)
     {
-        ProcessReceivedData(TArray<uint8>(m_Buffer, m_BytesRead));
+        FString jsonString = BytesToString(m_Buffer, m_BytesRead);
+        TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
+        TSharedRef<TJsonReader<>> jsonReader = TJsonReaderFactory<>::Create(jsonString);
+
+        if (FJsonSerializer::Deserialize(jsonReader, jsonObject) && jsonObject.IsValid())
+        {
+            const TSharedPtr<FJsonObject>* messageObject = nullptr;
+            if (jsonObject->TryGetObjectField(CitadelsGameMessageJsonKey, messageObject))
+            {
+                ProcessReceivedData(*messageObject);
+            }
+        }
 
         m_BytesRead = 0;
     }
@@ -56,10 +68,17 @@ bool NetworkSocketHandler::TryConnect()
 }
 
 
-void NetworkSocketHandler::Send(FBufferArchive& data)
+void NetworkSocketHandler::Send(const TSharedPtr<FJsonObject>& jsonObject)
 {
+    TSharedPtr<FJsonObject> rootObject = MakeShareable(new FJsonObject);
+    rootObject->SetObjectField(CitadelsGameMessageJsonKey, jsonObject);
+
+    FString jsonString;
+    TSharedRef<TJsonWriter<>> writer = TJsonWriterFactory<>::Create(&jsonString);
+    FJsonSerializer::Serialize(rootObject.ToSharedRef(), writer);
+    
     int32 sent = 0;
-    m_Socket->Send(data.GetData(), data.TotalSize(), sent);
+    m_Socket->Send(TArray<uint8>(jsonString.GetCharArray()).GetData(), jsonString.Len(), sent);
 
     int error = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->GetLastErrorCode();
     if (error == SE_ECONNRESET && m_SendErrorCallback)
@@ -68,10 +87,10 @@ void NetworkSocketHandler::Send(FBufferArchive& data)
     }
 }
 
-void NetworkSocketHandler::ProcessReceivedData(const TArray<uint8>& data)
+void NetworkSocketHandler::ProcessReceivedData(const TSharedPtr<FJsonObject>& jsonObject)
 {
     if (m_MessageFromServerCallback)
     {
-        m_MessageFromServerCallback(MessageFromServer(data));
+        m_MessageFromServerCallback(jsonObject);
     }
 }

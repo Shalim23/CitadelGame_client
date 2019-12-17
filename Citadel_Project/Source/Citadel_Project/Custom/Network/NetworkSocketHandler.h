@@ -9,25 +9,25 @@ class NetworkSocketHandler
 {
 
 public:
-    void SetMessageFromServerCallback(std::function<void(const MessageFromServer&)> callback);
+    void SetMessageFromServerCallback(std::function<void(const TSharedPtr<FJsonObject>&)> callback);
     void SetSendErrorCallback(std::function<void()> callback);
     void Shutdown();
 
     bool TryConnect();
 
-    void Send(FBufferArchive& data);
+    void Send(const TSharedPtr<FJsonObject>& jsonObject);
     void Receive();
 
 private:
-    void ProcessReceivedData(const TArray<uint8>& data);
+    void ProcessReceivedData(const TSharedPtr<FJsonObject>& jsonObject);
 
 private:
     FSocket* m_Socket = nullptr;
 
-    const static size_t m_NetMessageSize = 256;
+    const static size_t m_NetMessageSize = 1024;
     uint8 m_Buffer[m_NetMessageSize] = {};
     int32 m_BytesRead = 0;
 
-    std::function<void(const MessageFromServer&)> m_MessageFromServerCallback;
+    std::function<void(const TSharedPtr<FJsonObject>&)> m_MessageFromServerCallback;
     std::function<void()> m_SendErrorCallback;
 };
