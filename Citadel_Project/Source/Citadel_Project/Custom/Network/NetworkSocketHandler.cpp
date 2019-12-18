@@ -1,6 +1,6 @@
 #include "NetworkSocketHandler.h"
 #include "Networking.h"
-#include "Serialization/JsonSerializer.h"
+#include "Serialization/JsonSerializer.h"\
 
 
 void NetworkSocketHandler::SetMessageFromServerCallback(std::function<void(const TSharedPtr<FJsonObject>&)> callback)
@@ -27,7 +27,7 @@ void NetworkSocketHandler::Receive()
     m_Socket->Recv(m_Buffer, m_NetMessageSize, m_BytesRead);
     if (m_BytesRead > 0)
     {
-        FString jsonString = BytesToString(m_Buffer, m_BytesRead);
+        FString jsonString(UTF8_TO_TCHAR(m_Buffer));
         TSharedPtr<FJsonObject> jsonObject = MakeShareable(new FJsonObject());
         TSharedRef<TJsonReader<>> jsonReader = TJsonReaderFactory<>::Create(jsonString);
 
@@ -41,6 +41,7 @@ void NetworkSocketHandler::Receive()
         }
 
         m_BytesRead = 0;
+        memset(m_Buffer, 0, sizeof(m_Buffer));
     }
 }
 

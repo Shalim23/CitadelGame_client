@@ -1,7 +1,6 @@
 #include "NetworkManager.h"
 #include "Custom/Events/Events.h"
 #include "Custom/Events/EventDispatcher.h"
-#include "Serialization/BufferArchive.h"
 #include "Serialization/JsonSerializer.h"
 
 ANetworkManager::ANetworkManager()
@@ -47,8 +46,6 @@ void ANetworkManager::OnPlayerReady(const EventData& eventData)
 {
     if (eventData.eventType == EventType::ReadyForGame)
     {
-        FBufferArchive toBinary;
-
         TSharedPtr<FJsonObject> messageObject = MakeShareable(new FJsonObject);
         messageObject->SetStringField(MessageNameJsonKey, IsReadyMessage);
 

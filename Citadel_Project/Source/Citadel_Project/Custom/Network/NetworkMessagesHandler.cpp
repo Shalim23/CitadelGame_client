@@ -29,7 +29,6 @@ void NetworkMessagesHandler::ProcessMessage(const TSharedPtr<FJsonObject>& jsonO
             (*callback)(jsonObject);
         }
     }
-    
 }
 
 void NetworkMessagesHandler::OnNetAllAreReadyMessage(const TSharedPtr<FJsonObject>& jsonObject)
