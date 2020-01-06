@@ -81,7 +81,7 @@ void UFindGameWidget::SetOnConstructedCallback(std::function<void()> callback)
 void UFindGameWidget::ReturnToMainMenu()
 {
     if (BaseGameEvent* returnToMainMenuEvent =
-        EventDispatcher::GetInstance().GetEvent(EventType::ReturnToMainMenu))
+        EventDispatcher::GetInstance().GetEvent(GameplayEventType::ReturnToMainMenu))
     {
         returnToMainMenuEvent->Broadcast(ReturnToMainMenuEventData());
 
@@ -92,7 +92,7 @@ void UFindGameWidget::ReturnToMainMenu()
 
 void UFindGameWidget::OnReadyButtonPressed()
 {
-    if (BaseGameEvent* readyForGameEvent = EventDispatcher::GetInstance().GetEvent(EventType::ReadyForGame))
+    if (BaseGameEvent* readyForGameEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::ReadyForGame))
     {
         DeactivateReadyButton();
         SetMessageText("Ready... Waiting for players...");

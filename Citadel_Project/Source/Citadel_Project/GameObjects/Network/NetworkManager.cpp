@@ -28,7 +28,7 @@ void ANetworkManager::BeginPlay()
 
 void ANetworkManager::OnReturnToMainMenu(const EventData& eventData)
 {
-    if (eventData.eventType == EventType::ReturnToMainMenu)
+    if (eventData.eventType == GameplayEventType::ReturnToMainMenu)
     {
         if (m_IsConnected)
         {
@@ -44,7 +44,7 @@ void ANetworkManager::OnReturnToMainMenu(const EventData& eventData)
 
 void ANetworkManager::OnPlayerReady(const EventData& eventData)
 {
-    if (eventData.eventType == EventType::ReadyForGame)
+    if (eventData.eventType == GameplayEventType::ReadyForGame)
     {
         TSharedPtr<FJsonObject> messageObject = MakeShareable(new FJsonObject);
         messageObject->SetStringField(MessageNameJsonKey, IsReadyMessage);
@@ -60,14 +60,14 @@ void ANetworkManager::Connect()
         m_IsConnected = true;
         SetActorTickEnabled(true);
 
-        if (BaseGameEvent* connectedToServerEvent = EventDispatcher::GetInstance().GetEvent(EventType::ConnectedToServer))
+        if (BaseGameEvent* connectedToServerEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::ConnectedToServer))
         {
             connectedToServerEvent->Broadcast(ConnectedToServerEventData());
         }
     }
     else
     {
-        if (BaseGameEvent* noServerConnectionEvent = EventDispatcher::GetInstance().GetEvent(EventType::NoServerConnection))
+        if (BaseGameEvent* noServerConnectionEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::NoServerConnection))
         {
             noServerConnectionEvent->Broadcast(NoServerConnectionEventData());
         }
@@ -84,8 +84,8 @@ void ANetworkManager::Shutdown()
 void ANetworkManager::SubscribeOnEvents()
 {
     m_EventsHandler.subscribe({
-        {EventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
-        {EventType::ReadyForGame, [this](const EventData& eventData) { OnPlayerReady(eventData); }},
+        {GameplayEventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
+        {GameplayEventType::ReadyForGame, [this](const EventData& eventData) { OnPlayerReady(eventData); }},
         });
 }
 
@@ -96,7 +96,7 @@ void ANetworkManager::ProcessMessage(const TSharedPtr<FJsonObject>& jsonObject)
 
 void ANetworkManager::OnConnectionError()
 {
-    if (BaseGameEvent* serverConnectionLostEvent = EventDispatcher::GetInstance().GetEvent(EventType::ServerConnectionLost))
+    if (BaseGameEvent* serverConnectionLostEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::ServerConnectionLost))
     {
         serverConnectionLostEvent->Broadcast(ServerConnectionLostEventData());
     }

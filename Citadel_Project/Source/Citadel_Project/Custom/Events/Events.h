@@ -4,7 +4,7 @@
 class FBufferArchive;
 class FMemoryReader;
 
-enum class EventType
+enum class GameplayEventType
 {
     Base,
     LeaveFromMainMenu,
@@ -22,37 +22,37 @@ enum class EventType
 
 struct EventData
 {
-    EventType eventType;
+    GameplayEventType eventType;
 
 public:
     virtual void Serialize(FBufferArchive& data) {}
     virtual void Deserialize(FMemoryReader& data) {}
 
 protected:
-    EventData(const EventType& otherEventType)
+    EventData(const GameplayEventType& otherEventType)
         : eventType(otherEventType)
     {}
 };
 
 struct EventSubscribeData
 {
-    EventSubscribeData(const EventType& otherEventType, const std::function<void(const EventData&)>& otherCallback)
+    EventSubscribeData(const GameplayEventType& otherEventType, const std::function<void(const EventData&)>& otherCallback)
         : eventType(otherEventType)
         , callback(otherCallback)
     {}
 
-    EventType eventType;
+    GameplayEventType eventType;
     std::function<void(const EventData&)> callback;
 };
 
 struct EventDelegateHandle
 {
-    EventDelegateHandle(const EventType& otherEventType, const FDelegateHandle& otherHandle)
+    EventDelegateHandle(const GameplayEventType& otherEventType, const FDelegateHandle& otherHandle)
         : eventType(otherEventType)
         , handle(otherHandle)
     {}
 
-    EventType eventType;
+    GameplayEventType eventType;
     FDelegateHandle handle;
 };
 
@@ -76,7 +76,7 @@ struct NotReadyEventData : public EventData
     using Super = EventData;
 
     NotReadyEventData()
-        : Super(EventType::NotReady)
+        : Super(GameplayEventType::NotReady)
     {}
 };
 
@@ -85,7 +85,7 @@ struct WaitingForPlayersEventData : public EventData
     using Super = EventData;
 
     WaitingForPlayersEventData()
-        : Super(EventType::WaitingForPlayers)
+        : Super(GameplayEventType::WaitingForPlayers)
     {}
 };
 
@@ -94,7 +94,7 @@ struct ServerConnectionLostEventData : public EventData
     using Super = EventData;
 
     ServerConnectionLostEventData()
-        : Super(EventType::ServerConnectionLost)
+        : Super(GameplayEventType::ServerConnectionLost)
     {}
 };
 
@@ -103,7 +103,7 @@ struct AllPlayersReadyEventData : public EventData
     using Super = EventData;
 
     AllPlayersReadyEventData()
-        : Super(EventType::AllPlayersReady)
+        : Super(GameplayEventType::AllPlayersReady)
     {}
 };
 
@@ -112,7 +112,7 @@ struct GameFoundEventData : public EventData
     using Super = EventData;
 
     GameFoundEventData()
-        : Super(EventType::GameFound)
+        : Super(GameplayEventType::GameFound)
     {}
 };
 
@@ -121,7 +121,7 @@ struct NoServerConnectionEventData : public EventData
     using Super = EventData;
 
     NoServerConnectionEventData()
-        : Super(EventType::NoServerConnection)
+        : Super(GameplayEventType::NoServerConnection)
     {}
 };
 
@@ -130,7 +130,7 @@ struct ConnectedToServerEventData : public EventData
     using Super = EventData;
 
     ConnectedToServerEventData()
-        : Super(EventType::ConnectedToServer)
+        : Super(GameplayEventType::ConnectedToServer)
     {}
 };
 
@@ -139,7 +139,7 @@ struct LeaveFromMainMenuEventData : public EventData
     using Super = EventData;
 
     LeaveFromMainMenuEventData()
-        : Super(EventType::LeaveFromMainMenu)
+        : Super(GameplayEventType::LeaveFromMainMenu)
     {}
 };
 
@@ -148,7 +148,7 @@ struct ReturnToMainMenuEventData : public EventData
     using Super = EventData;
 
     ReturnToMainMenuEventData()
-        : Super(EventType::ReturnToMainMenu)
+        : Super(GameplayEventType::ReturnToMainMenu)
     {}
 };
 
@@ -157,7 +157,7 @@ struct FindGameEventData : public EventData
     using Super = EventData;
 
     FindGameEventData()
-        : Super(EventType::FindGame)
+        : Super(GameplayEventType::FindGame)
     {}
 };
 
@@ -166,6 +166,6 @@ struct ReadyForGameEventData : public EventData
     using Super = EventData;
 
     ReadyForGameEventData()
-        : Super(EventType::ReadyForGame)
+        : Super(GameplayEventType::ReadyForGame)
     {}
 };
