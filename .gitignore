@@ -5,3 +5,5 @@ Citadel_Project/Citadel_Project.sln
 Citadel_Project/.vs/
 Citadel_Project.index
 *.log
+*.DS_Store
+*.xcworkspace
