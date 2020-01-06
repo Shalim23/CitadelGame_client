@@ -15,8 +15,8 @@ public:
 
     void unsubscribe(const std::vector<EventDelegateHandle>& callbacksData);
 
-    BaseGameEvent* GetEvent(const EventType& eventType);
+    BaseGameEvent* GetEvent(const GameplayEventType& eventType);
 
 private:
-    std::unordered_map<EventType, std::unique_ptr<BaseGameEvent>> m_Events;
+    std::unordered_map<GameplayEventType, std::unique_ptr<BaseGameEvent>> m_Events;
 };

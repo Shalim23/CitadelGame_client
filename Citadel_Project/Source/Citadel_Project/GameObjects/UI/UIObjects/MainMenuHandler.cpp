@@ -21,13 +21,13 @@ AMainMenuHandler::AMainMenuHandler()
 void AMainMenuHandler::SubcribeOnEvents()
 {
     m_EventsHandler.subscribe({
-        {EventType::LeaveFromMainMenu, [this](const EventData& eventData) { OnLeaveMainMenu(eventData); }},
+        {GameplayEventType::LeaveFromMainMenu, [this](const EventData& eventData) { OnLeaveMainMenu(eventData); }},
         });
 }
 
 void AMainMenuHandler::OnLeaveMainMenu(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::LeaveFromMainMenu)
+    if (eventData.eventType != GameplayEventType::LeaveFromMainMenu)
     {
         return;
     }

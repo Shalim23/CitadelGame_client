@@ -20,7 +20,7 @@ AGameRulesHandler::AGameRulesHandler()
 
 void AGameRulesHandler::OnReturnToMainMenu(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::ReturnToMainMenu)
+    if (eventData.eventType != GameplayEventType::ReturnToMainMenu)
     {
         return;
     }
@@ -32,7 +32,7 @@ void AGameRulesHandler::OnReturnToMainMenu(const EventData& eventData)
 void AGameRulesHandler::SubcribeOnEvents()
 {
     m_EventsHandler.subscribe({
-        {EventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
+        {GameplayEventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
         });
 }
 

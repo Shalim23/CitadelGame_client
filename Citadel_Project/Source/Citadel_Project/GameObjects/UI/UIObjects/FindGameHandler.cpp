@@ -19,7 +19,7 @@ AFindGameHandler::AFindGameHandler()
 
 void AFindGameHandler::OnReturnToMainMenu(const EventData& eventData)
 {
-    if (eventData.eventType == EventType::ReturnToMainMenu)
+    if (eventData.eventType == GameplayEventType::ReturnToMainMenu)
     {
         m_EventsHandler.unsubscribe();
         Destroy();
@@ -28,14 +28,14 @@ void AFindGameHandler::OnReturnToMainMenu(const EventData& eventData)
 
 void AFindGameHandler::OnNoServerConnection(const EventData& eventData)
 {
-    if (eventData.eventType == EventType::NoServerConnection)
+    if (eventData.eventType == GameplayEventType::NoServerConnection)
     {
         if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
         {
             widget->SetMessageText("Server is down...");
         }
     }
-    else if (eventData.eventType == EventType::ServerConnectionLost)
+    else if (eventData.eventType == GameplayEventType::ServerConnectionLost)
     {
         if (UFindGameWidget* widget = static_cast<UFindGameWidget*>(m_widgetComponent->GetUserWidgetObject()))
         {
@@ -46,7 +46,7 @@ void AFindGameHandler::OnNoServerConnection(const EventData& eventData)
 
 void AFindGameHandler::OnConnectedToServer(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::ConnectedToServer)
+    if (eventData.eventType != GameplayEventType::ConnectedToServer)
     {
         return;
     }
@@ -59,7 +59,7 @@ void AFindGameHandler::OnConnectedToServer(const EventData& eventData)
 
 void AFindGameHandler::OnGameFound(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::GameFound)
+    if (eventData.eventType != GameplayEventType::GameFound)
     {
         return;
     }
@@ -72,7 +72,7 @@ void AFindGameHandler::OnGameFound(const EventData& eventData)
 
 void AFindGameHandler::OnAllPlayersReady(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::AllPlayersReady)
+    if (eventData.eventType != GameplayEventType::AllPlayersReady)
     {
         return;
     }
@@ -86,7 +86,7 @@ void AFindGameHandler::OnAllPlayersReady(const EventData& eventData)
 
 void AFindGameHandler::OnWaitingForPlayers(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::WaitingForPlayers)
+    if (eventData.eventType != GameplayEventType::WaitingForPlayers)
     {
         return;
     }
@@ -104,7 +104,7 @@ void AFindGameHandler::OnWidgetConstructed()
 
 void AFindGameHandler::OnNotReady(const EventData& eventData)
 {
-    if (eventData.eventType != EventType::NotReady)
+    if (eventData.eventType != GameplayEventType::NotReady)
     {
         return;
     }
@@ -118,14 +118,14 @@ void AFindGameHandler::OnNotReady(const EventData& eventData)
 void AFindGameHandler::SubcribeOnEvents()
 {
     m_EventsHandler.subscribe({
-        {EventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
-        {EventType::NoServerConnection, [this](const EventData& eventData) { OnNoServerConnection(eventData); }},
-        {EventType::ConnectedToServer, [this](const EventData& eventData) { OnConnectedToServer(eventData); }},
-        {EventType::GameFound, [this](const EventData& eventData) { OnGameFound(eventData); }},
-        {EventType::AllPlayersReady, [this](const EventData& eventData) { OnAllPlayersReady(eventData); }},
-        {EventType::NotReady, [this](const EventData& eventData) { OnNotReady(eventData); }},
-        {EventType::WaitingForPlayers, [this](const EventData& eventData) { OnWaitingForPlayers(eventData); }},
-        {EventType::ServerConnectionLost, [this](const EventData& eventData) { OnNoServerConnection(eventData); }},
+        {GameplayEventType::ReturnToMainMenu, [this](const EventData& eventData) { OnReturnToMainMenu(eventData); }},
+        {GameplayEventType::NoServerConnection, [this](const EventData& eventData) { OnNoServerConnection(eventData); }},
+        {GameplayEventType::ConnectedToServer, [this](const EventData& eventData) { OnConnectedToServer(eventData); }},
+        {GameplayEventType::GameFound, [this](const EventData& eventData) { OnGameFound(eventData); }},
+        {GameplayEventType::AllPlayersReady, [this](const EventData& eventData) { OnAllPlayersReady(eventData); }},
+        {GameplayEventType::NotReady, [this](const EventData& eventData) { OnNotReady(eventData); }},
+        {GameplayEventType::WaitingForPlayers, [this](const EventData& eventData) { OnWaitingForPlayers(eventData); }},
+        {GameplayEventType::ServerConnectionLost, [this](const EventData& eventData) { OnNoServerConnection(eventData); }},
         });
 }
 
