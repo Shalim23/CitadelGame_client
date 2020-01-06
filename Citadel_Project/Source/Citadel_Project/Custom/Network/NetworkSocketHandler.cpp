@@ -1,6 +1,6 @@
 #include "NetworkSocketHandler.h"
 #include "Networking.h"
-#include "Serialization/JsonSerializer.h"\
+#include "Serialization/JsonSerializer.h"
 
 
 void NetworkSocketHandler::SetMessageFromServerCallback(std::function<void(const TSharedPtr<FJsonObject>&)> callback)
