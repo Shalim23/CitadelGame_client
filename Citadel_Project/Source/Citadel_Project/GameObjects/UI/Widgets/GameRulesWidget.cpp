@@ -194,7 +194,7 @@ void UGameRulesWidget::OnGameRulesButtonPressed()
 void UGameRulesWidget::ReturnToMainMenu()
 {
     if (BaseGameEvent* returnToMainMenuEvent =
-        EventDispatcher::GetInstance().GetEvent(GameplayEventType::ReturnToMainMenu))
+        EventDispatcher::GetInstance().GetEvent(EventType::ReturnToMainMenu))
     {
         returnToMainMenuEvent->Broadcast(ReturnToMainMenuEventData());
 

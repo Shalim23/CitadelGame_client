@@ -33,7 +33,7 @@ void NetworkMessagesHandler::ProcessMessage(const TSharedPtr<FJsonObject>& jsonO
 
 void NetworkMessagesHandler::OnNetAllAreReadyMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    if (BaseGameEvent* allPlayersReadyEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::AllPlayersReady))
+    if (BaseGameEvent* allPlayersReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::AllPlayersReady))
     {
         allPlayersReadyEvent->Broadcast(AllPlayersReadyEventData());
     }
@@ -41,7 +41,7 @@ void NetworkMessagesHandler::OnNetAllAreReadyMessage(const TSharedPtr<FJsonObjec
 
 void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    if (BaseGameEvent* gameFoundEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::GameFound))
+    if (BaseGameEvent* gameFoundEvent = EventDispatcher::GetInstance().GetEvent(EventType::GameFound))
     {
         gameFoundEvent->Broadcast(GameFoundEventData());
     }
@@ -49,7 +49,7 @@ void NetworkMessagesHandler::OnNetWaitingForReadinessMessage(const TSharedPtr<FJ
 
 void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    if (BaseGameEvent* waitingForPlayersEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::WaitingForPlayers))
+    if (BaseGameEvent* waitingForPlayersEvent = EventDispatcher::GetInstance().GetEvent(EventType::WaitingForPlayers))
     {
         waitingForPlayersEvent->Broadcast(WaitingForPlayersEventData());
     }
@@ -57,7 +57,7 @@ void NetworkMessagesHandler::OnNetWaitingForPlayersMessage(const TSharedPtr<FJso
 
 void NetworkMessagesHandler::OnNetNotReadyMessage(const TSharedPtr<FJsonObject>& jsonObject)
 {
-    if (BaseGameEvent* notReadyEvent = EventDispatcher::GetInstance().GetEvent(GameplayEventType::NotReady))
+    if (BaseGameEvent* notReadyEvent = EventDispatcher::GetInstance().GetEvent(EventType::NotReady))
     {
         notReadyEvent->Broadcast(NotReadyEventData());
     }

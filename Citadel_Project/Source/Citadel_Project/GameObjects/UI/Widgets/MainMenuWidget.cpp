@@ -36,7 +36,7 @@ void UMainMenuWidget::NativeConstruct()
 void UMainMenuWidget::GoToGameRules()
 {
     if (BaseGameEvent* leaveFromMainMenuEvent =
-        EventDispatcher::GetInstance().GetEvent(GameplayEventType::LeaveFromMainMenu))
+        EventDispatcher::GetInstance().GetEvent(EventType::LeaveFromMainMenu))
     {
         leaveFromMainMenuEvent->Broadcast(LeaveFromMainMenuEventData());
 
@@ -53,8 +53,8 @@ void UMainMenuWidget::ExitGame()
 void UMainMenuWidget::FindGame()
 {
     EventDispatcher& eventDispatcherInstance = EventDispatcher::GetInstance();
-    BaseGameEvent* findGameEvent = eventDispatcherInstance.GetEvent(GameplayEventType::FindGame);
-    BaseGameEvent* leaveFromMainMenuEvent = eventDispatcherInstance.GetEvent(GameplayEventType::LeaveFromMainMenu);
+    BaseGameEvent* findGameEvent = eventDispatcherInstance.GetEvent(EventType::FindGame);
+    BaseGameEvent* leaveFromMainMenuEvent = eventDispatcherInstance.GetEvent(EventType::LeaveFromMainMenu);
 
     if (findGameEvent && leaveFromMainMenuEvent)
     {

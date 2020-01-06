@@ -3,27 +3,27 @@
 
 void EventDispatcher::Init()
 {
-    m_Events.insert({ GameplayEventType::LeaveFromMainMenu, std::make_unique<LeaveFromMainMenuEvent>() });
-    m_Events.insert({ GameplayEventType::ReturnToMainMenu, std::make_unique<ReturnToMainMenuEvent>() });
-    m_Events.insert({ GameplayEventType::FindGame, std::make_unique<FindGameEvent>() });
-    m_Events.insert({ GameplayEventType::ReadyForGame, std::make_unique<ReadyForGameEvent>() });
-    m_Events.insert({ GameplayEventType::NoServerConnection, std::make_unique<NoServerConnectionEvent>() });
-    m_Events.insert({ GameplayEventType::ConnectedToServer, std::make_unique<ConnectedToServerEvent>() });
-    m_Events.insert({ GameplayEventType::GameFound, std::make_unique<GameFoundEvent>() });
-    m_Events.insert({ GameplayEventType::AllPlayersReady, std::make_unique<AllPlayersReadyEvent>() });
-    m_Events.insert({ GameplayEventType::NotReady, std::make_unique<NotReadyEvent>() });
-    m_Events.insert({ GameplayEventType::ServerConnectionLost, std::make_unique<ServerConnectionLostEvent>() });
-    m_Events.insert({ GameplayEventType::WaitingForPlayers, std::make_unique<WaitingForPlayersEvent>() });
+    m_Events.insert({ EventType::LeaveFromMainMenu, std::make_unique<LeaveFromMainMenuEvent>() });
+    m_Events.insert({ EventType::ReturnToMainMenu, std::make_unique<ReturnToMainMenuEvent>() });
+    m_Events.insert({ EventType::FindGame, std::make_unique<FindGameEvent>() });
+    m_Events.insert({ EventType::ReadyForGame, std::make_unique<ReadyForGameEvent>() });
+    m_Events.insert({ EventType::NoServerConnection, std::make_unique<NoServerConnectionEvent>() });
+    m_Events.insert({ EventType::ConnectedToServer, std::make_unique<ConnectedToServerEvent>() });
+    m_Events.insert({ EventType::GameFound, std::make_unique<GameFoundEvent>() });
+    m_Events.insert({ EventType::AllPlayersReady, std::make_unique<AllPlayersReadyEvent>() });
+    m_Events.insert({ EventType::NotReady, std::make_unique<NotReadyEvent>() });
+    m_Events.insert({ EventType::ServerConnectionLost, std::make_unique<ServerConnectionLostEvent>() });
+    m_Events.insert({ EventType::WaitingForPlayers, std::make_unique<WaitingForPlayersEvent>() });
 }
 
-BaseGameEvent* EventDispatcher::GetEvent(const GameplayEventType& eventType)
+BaseGameEvent* EventDispatcher::GetEvent(const EventType& eventType)
 {
     auto iter = m_Events.find(eventType);
     if (iter != m_Events.end())
     {
         return iter->second.get();
     }
-
+    
     return nullptr;
 }
 
